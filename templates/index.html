@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DearBot</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <div class="header">
+
+        <div class="robot">
+            🤖
+        </div>
+
+        <div>
+            <h1>DearBot</h1>
+            <p>your pixel AI friend</p>
+        </div>
+
+    </div>
+
+
+
+    <div id="messages" class="messages">
+
+        <div class="bot message">
+            ✨ Merhaba! Ben DearBot.
+            <br>
+            Senin pixel arkadaşınım 🤍
+        </div>
+
+    </div>
+
+
+
+    <div class="typing" id="typing">
+        DearBot yazıyor...
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+    </div>
+
+
+
+    <div class="input-area">
+
+        <input 
+        id="input"
+        placeholder="Bir şey yaz..."
+        autocomplete="off">
+
+
+        <button onclick="sendMessage()">
+            ➤
+        </button>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+async function sendMessage(){
+
+
+let input = document.getElementById("input");
+
+let text = input.value.trim();
+
+
+if(text === ""){
+    return;
+}
+
+
+
+let messages = document.getElementById("messages");
+
+
+
+messages.innerHTML +=
+`
+<div class="user message">
+${text}
+</div>
+`;
+
+
+
+input.value="";
+
+
+
+let typing = document.getElementById("typing");
+
+typing.style.display="block";
+
+
+
+let response = await fetch("/chat",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+message:text
+
+})
+
+});
+
+
+
+let data = await response.json();
+
+
+
+typing.style.display="none";
+
+
+
+messages.innerHTML +=
+`
+<div class="bot message">
+🤖 ${data.reply}
+</div>
+`;
+
+
+
+messages.scrollTop = messages.scrollHeight;
+
+
+}
+
+
+
+
+document.getElementById("input")
+.addEventListener("keydown",function(event){
+
+if(event.key==="Enter"){
+
+sendMessage();
+
+}
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>
