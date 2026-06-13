@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-import ollama
+
 
 app = Flask(__name__)
 
