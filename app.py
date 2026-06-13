@@ -34,10 +34,10 @@ def chat():
     )
 
     try:
-        # KESİN VE AKTİF MODEL: llama3-8b-8192
-        # Groq üzerinde metin sohbetleri için en hızlı ve sorunsuz çalışan ana Llama 3 modelidir.
+        # 2026 GÜNCEL VE AKTİF MODEL: llama-3.3-70b-versatile
+        # Groq üzerindeki en kararlı, güncel ve yüksek performanslı Llama 3 sürümüdür.
         response = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model="llama-3.3-70b-versatile",
             messages=messages,
             temperature=0.4
         )
