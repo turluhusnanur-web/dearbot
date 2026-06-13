@@ -37,7 +37,7 @@ def chat():
     try:
         # Yapay zeka yanıtını internet üzerinden Groq sunucularından ışık hızında çekiyoruz
         response = client.chat.completions.create(
-            model="llama-3.2-3b-preview",
+            model="llama-3.2-3b",
             messages=messages,
             temperature=0.4
         )
