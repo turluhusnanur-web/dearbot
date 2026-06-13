@@ -4,8 +4,7 @@ import os
 
 app = Flask(__name__)
 
-# Groq API bağlantısı. API anahtarını aşağıdaki tırnakların içine güvenle yazabilirsin.
-# Render'da Environment Variable ayarladıysan onu okur, ayarlamadıysan tırnak içindeki anahtarı kullanır.
+# API anahtarını buradaki tırnakların içine yazabilirsin.
 client = Groq(api_key=os.environ.get("GROQ_API_KEY", "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"))
 
 messages = [
@@ -35,9 +34,10 @@ def chat():
     )
 
     try:
-        # Yapay zeka yanıtını internet üzerinden Groq sunucularından ışık hızında çekiyoruz
+        # KESİN VE AKTİF MODEL: llama3-8b-8192
+        # Groq üzerinde metin sohbetleri için en hızlı ve sorunsuz çalışan ana Llama 3 modelidir.
         response = client.chat.completions.create(
-            model="llama-3.2-3b",
+            model="llama3-8b-8192",
             messages=messages,
             temperature=0.4
         )
@@ -57,6 +57,5 @@ def chat():
     })
 
 if __name__ == '__main__':
-    # Hem kendi bilgisayarında (5000 portunda) hem de Render'da sorunsuz çalışmasını sağlayan altın ayar
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
