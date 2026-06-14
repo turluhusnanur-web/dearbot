@@ -41,9 +41,8 @@ def set_mood():
     global messages
     selected_mood = request.json.get("mood")
     
-    # EĞER KULLANICI MODU KAPATTIYSA (selected_mood None veya boş geldiyse)
+    # Eğer buton kapatıldıysa (null/None geldiyse) fabrika ayarlarına dön
     if not selected_mood:
-        # Botu normal fabrika ayarlarına döndürüyoruz
         messages[0]["content"] = """
 Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
 BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
@@ -51,9 +50,8 @@ Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda k
 """
         return jsonify({"status": "success", "current_mood": "Normal"})
 
-    # Eğer normal bir mod seçildiyse sözlükten talimatı alıyoruz
+    # Butona basıldıysa ilgili modu yükle
     mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
-    
     messages[0]["content"] = f"""
 Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
 BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
