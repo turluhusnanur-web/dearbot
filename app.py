@@ -41,14 +41,20 @@ def set_mood():
     global messages
     selected_mood = request.json.get("mood")
     
-    # Kullanıcının seçtiği modun açıklamasını sözlükten çekiyoruz
+    # EĞER KULLANICI MODU KAPATTIYSA (selected_mood None veya boş geldiyse)
+    if not selected_mood:
+        # Botu normal fabrika ayarlarına döndürüyoruz
+        messages[0]["content"] = """
+Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
+BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
+Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda kesin bir bilgim yok' diyerek belirt.
+"""
+        return jsonify({"status": "success", "current_mood": "Normal"})
+
+    # Eğer normal bir mod seçildiyse sözlükten talimatı alıyoruz
     mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
     
-    # ÇÖZÜM: Hafızayı sıfırlıyoruz ve en tepeye YENİ modu yerleştiriyoruz
-    messages = [
-        {
-            "role": "system",
-            "content": f"""
+    messages[0]["content"] = f"""
 Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
 BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
 Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda kesin bir bilgim yok' diyerek belirt.
@@ -56,9 +62,8 @@ Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda k
 ŞU ANKİ RUH HALİN VE KARAKTERİN: {mood_instruction}
 Bu ruh halini tamamen benimse ve konuşmana birebir yansıt ama kullanıcıya 'Bana şu mod verildi' deme, bunu doğalca hissettir.
 """
-        }
-    ]
     return jsonify({"status": "success", "current_mood": selected_mood})
+    
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json["message"]
