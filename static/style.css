@@ -74,7 +74,26 @@ body{
 
 
 <img>
+.robot{
+    /* font-size: 50px; --> Bu satırı silin veya yorum satırı yapın */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-bottom: 4px dashed #d99ac2;
+    padding-bottom: 15px;
+    animation: bounce 1s infinite alternate; /* Bu mevcut animasyonu koruyun */
+}
 
+/* Tavşanın zıplama animasyonunu daha da tatlı hissettirmek için gerekirse: */
+@keyframes bounce{
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-8px);
+}
+}
 
 
 @keyframes bounce{
