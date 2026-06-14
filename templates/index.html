@@ -94,22 +94,43 @@ if(text === ""){
     return;
 }
 async function changeMood(selectedMood) {
-    // Arka plandaki Python kodumuza yeni modu gönderiyoruz
+    // Tıklanan butonu bulalım (içindeki yazıya göre)
+    let buttons = document.querySelectorAll(".mood-btn");
+    let clickedButton = Array.from(buttons).find(btn => btn.innerText === selectedMood);
+    
+    let targetMood = selectedMood;
+    let systemText = "";
+
+    // EĞER TIKLANAN BUTON ZATEN AKTİFSE (Kullanıcı modu kapatmak istiyor)
+    if (clickedButton.classList.contains("active-mood")) {
+        clickedButton.classList.remove("active-mood");
+        targetMood = null; // Python'a boş gönderiyoruz ki normal moda dönsün
+        systemText = `⚙️ System: DearBot "Normal" moda geri döndü.`;
+    } else {
+        // Önce diğer tüm butonlardaki aktifliği kaldıralım (aynı anda sadece bir mod açılabilir)
+        buttons.forEach(btn => btn.classList.remove("active-mood"));
+        
+        // Şimdi sadece tıkladığımız butonu aktif yapalım
+        clickedButton.classList.add("active-mood");
+        systemText = `⚙️ System: DearBot artık "${selectedMood}" modunda!`;
+    }
+
+    // Arka plana yeni durumu bildiriyoruz
     let response = await fetch("/set_mood", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ mood: selectedMood })
+        body: JSON.stringify({ mood: targetMood })
     });
     
     let data = await response.json();
     
-    // Mod değişince ekrana DearBot'un modunun değiştiğini belirten tatlı bir sistem mesajı basalım
+    // Ekrana sistem mesajını yazdıralım (eski mesajları silmeden alta ekler)
     let messages = document.getElementById("messages");
     messages.innerHTML += `
         <div class="bot message" style="background: #fff; border-style: dashed; color: #8b4f7d;">
-            ⚙️ System: DearBot artık "${selectedMood}" modunda!
+            ${systemText}
         </div>
     `;
     messages.scrollTop = messages.scrollHeight;
