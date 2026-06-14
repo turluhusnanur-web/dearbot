@@ -41,17 +41,13 @@ def set_mood():
     global messages
     selected_mood = request.json.get("mood")
     
-    # Eğer buton kapatıldıysa (null/None geldiyse) fabrika ayarlarına dön
-    if not selected_mood:
-        messages[0]["content"] = """
-Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
-BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
-Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda kesin bir bilgim yok' diyerek belirt.
-"""
-        return jsonify({"status": "success", "current_mood": "Normal"})
-
-    # Butona basıldıysa ilgili modu yükle
-    mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
+    if selected_mood == "Normal":
+        # Eğer mod iptal edildiyse ilk orijinal talimatımıza dönüyoruz
+        mood_instruction = "Şu an normal, dengeli, samimi ve arkadaş canlısı moddasın."
+    else:
+        # Değilse seçilen modu sözlükten alıyoruz
+        mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
+    
     messages[0]["content"] = f"""
 Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
 BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
