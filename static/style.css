@@ -358,3 +358,11 @@ button:active{
     box-shadow: none;
 }
 
+/* Buton basılı kaldığında tetiklenecek pixel stil */
+.mood-btn.active-mood {
+    background: #ff9fca !important; /* Pembe renge dönerek aktif olduğunu belli eder */
+    transform: translate(3px, 3px); /* Aşağı basılı kalma efekti */
+    box-shadow: none !important; /* Gölge kaybolur */
+    border-color: #5c3b58;
+}
+
