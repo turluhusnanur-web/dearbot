@@ -358,11 +358,30 @@ button:active{
     box-shadow: none;
 }
 
-/* Buton basılı kaldığında tetiklenecek pixel stil */
-.mood-btn.active-mood {
-    background: #ff9fca !important; /* Pembe renge dönerek aktif olduğunu belli eder */
-    transform: translate(3px, 3px); /* Aşağı basılı kalma efekti */
-    box-shadow: none !important; /* Gölge kaybolur */
-    border-color: #5c3b58;
+.mood-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
+.mood-btn {
+    flex: 1;
+    width: auto;
+    padding: 8px 4px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+    background: #e8dcff;
+    border: 4px solid #5c3b58;
+    box-shadow: 3px 3px 0px #5c3b58;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Butonun basılı kalma efektini garantiye alıyoruz */
+.mood-btn.active-mood {
+    background: #ff9fca !important; 
+    transform: translate(3px, 3px) !important; 
+    box-shadow: none !important; 
+}
