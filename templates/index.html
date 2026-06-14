@@ -105,13 +105,14 @@ async function sendMessage(){
     let input = document.getElementById("input");
     let text = input.value.trim();
     
-  // TXT GİZLİ KODU (SARI - MAVİ KONSEPTİ)
+    // TXT GİZLİ KODU (SARI - MAVİ KONSEPTİ)
     if (text.toLowerCase() === "txt") {
         let messages = document.getElementById("messages");
         
         messages.innerHTML += `<div class="user message">${text}</div>`;
         input.value = "";
         
+        // Sadece mesaj gönderme alanındaki butonu seçiyoruz, mod butonları etkilenmiyor!
         let sendButton = document.querySelector(".input-area button");
         
         document.body.style.backgroundColor = "#ffdb00"; 
@@ -145,7 +146,7 @@ async function sendMessage(){
                 
                 let dreamText = document.getElementById("one-dream-text");
                 if (dreamText) { dreamText.remove(); }
-            }, 5000);
+            }, 5000); // 5 saniye boyunca ekranda kalır
             
         }, 400);
         
