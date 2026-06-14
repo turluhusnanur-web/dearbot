@@ -1,56 +1,37 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
     <meta charset="UTF-8">
     <title>DearBot</title>
-
     <link rel="stylesheet" href="/static/style.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-
-
 <body>
-
 <div class="app">
-
-
     <div class="header">
-
-       <div class="robot">
-    <img src="/static/bunny_pixel.png" alt="DearBot Maskot" style="width: 50px; height: 50px; image-rendering: pixelated;">
-</div>
+        <div class="robot">
+            🐰
         </div>
-
         <div>
             <h1>DearBot</h1>
             <p>your pixel AI friend</p>
         </div>
-
     </div>
-
 
     <div class="mood-container">
-        <button class="mood-btn" onclick="changeMood(this, 'Enerjik ✨')">Enerjik ✨</button>
-        <button class="mood-btn" onclick="changeMood(this, 'Uykulu ☕')">Uykulu ☕</button>
-        <button class="mood-btn" onclick="changeMood(this, 'Filozof 📚')">Filozof 📚</button>
-        <button class="mood-btn" onclick="changeMood(this, 'Alıngan 💅')">Alıngan 💅</button>
+        <button class="mood-btn" onclick="changeMood('Enerjik ✨')">Enerjik ✨</button>
+        <button class="mood-btn" onclick="changeMood('Uykulu ☕')">Uykulu ☕</button>
+        <button class="mood-btn" onclick="changeMood('Filozof 📚')">Filozof 📚</button>
+        <button class="mood-btn" onclick="changeMood('Alıngan 💅')">Alıngan 💅</button>
     </div>
 
-
-
     <div id="messages" class="messages">
-
         <div class="bot message">
             ✨ Merhaba! Ben DearBot.
             <br>
             Senin pixel arkadaşınım 🤍
         </div>
-
     </div>
-
-
 
     <div class="typing" id="typing">
         DearBot yazıyor...
@@ -59,167 +40,53 @@
         <span>.</span>
     </div>
 
-
-
     <div class="input-area">
-
-        <input 
-        id="input"
-        placeholder="Bir şey yaz..."
-        autocomplete="off">
-
-
-        <button onclick="sendMessage()">
-            ➤
-        </button>
-
+        <input id="input" placeholder="Bir şey yaz..." autocomplete="off">
+        <button onclick="sendMessage()">➤</button>
     </div>
-
-
-
 </div>
-
-
-
 
 <script>
-
-
-async function sendMessage(){
-
-
-let input = document.getElementById("input");
-
-let text = input.value.trim();
-
-
-if(text === ""){
-    return;
-}
-
-
-
-let messages = document.getElementById("messages");
-
-
-
-messages.innerHTML +=
-`
-<div class="user message">
-${text}
-</div>
-`;
-
-
-
-input.value="";
-
-
-
-let typing = document.getElementById("typing");
-
-typing.style.display="block";
-
-
-
-let response = await fetch("/chat",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-message:text
-
-})
-
-});
-
-
-
-let data = await response.json();
-
-
-
-typing.style.display="none";
-
-
-
-messages.innerHTML +=
-`
-<div class="bot message">
-🤖 ${data.reply}
-</div>
-`;
-
-
-
-messages.scrollTop = messages.scrollHeight;
-
-
-}
-
-
-// MOD DEĞİŞTİRME FONKSİYONU (Açma/Kapama ve Buton Basılı Kalma Mantığı Tamamen Çözüldü)
-async function changeMood(buttonElement, selectedMood) {
-    let targetMood = selectedMood;
-    let systemText = "";
-
-    // Eğer tıklanan buton zaten aktifse (Kullanıcı modu kapatıp normal moda dönmek istiyor)
-    if (buttonElement.classList.contains("active-mood")) {
-        buttonElement.classList.remove("active-mood");
-        targetMood = null; // Python normal moda dönecek
-        systemText = `⚙️ System: DearBot "Normal" moda geri döndü.`;
-    } else {
-        // Önce ekrandaki tüm mod butonlarından aktiflik sınıfını temizle
-        let buttons = document.querySelectorAll(".mood-btn");
-        buttons.forEach(btn => btn.classList.remove("active-mood"));
-        
-        // Sadece tıkladığımız butona aktiflik sınıfını ekle
-        buttonElement.classList.add("active-mood");
-        systemText = `⚙️ System: DearBot artık "${selectedMood}" modunda!`;
-    }
-
-    // Arka plandaki Flask sunucumuza yeni modu post ediyoruz
+async function changeMood(selectedMood) {
     let response = await fetch("/set_mood", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ mood: targetMood })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mood: selectedMood })
     });
-    
-    let data = await response.json();
-    
-    // Konuşma geçmişini bozmadan alt kısma sistem uyarısını ekliyoruz
     let messages = document.getElementById("messages");
     messages.innerHTML += `
-        <div class="bot message" style="background: #fff; border-style: dashed; color: #8b4f7d; align-self: center; max-width: 100%; width: 100%; text-align: center;">
-            ${systemText}
+        <div class="bot message" style="background: #fff; border-style: dashed; color: #8b4f7d;">
+            ⚙️ System: DearBot artık "${selectedMood}" modunda!
         </div>
     `;
     messages.scrollTop = messages.scrollHeight;
 }
 
+async function sendMessage(){
+    let input = document.getElementById("input");
+    let text = input.value.trim();
+    if(text === ""){ return; }
+    let messages = document.getElementById("messages");
+    messages.innerHTML += `<div class="user message">${text}</div>`;
+    input.value="";
+    let typing = document.getElementById("typing");
+    typing.style.display="block";
 
-document.getElementById("input")
-.addEventListener("keydown",function(event){
+    let response = await fetch("/chat",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ message:text })
+    });
 
-if(event.key==="Enter"){
-
-sendMessage();
-
+    let data = await response.json();
+    typing.style.display="none";
+    messages.innerHTML += `<div class="bot message">🤖 ${data.reply}</div>`;
+    messages.scrollTop = messages.scrollHeight;
 }
 
+document.getElementById("input").addEventListener("keydown",function(event){
+    if(event.key==="Enter"){ sendMessage(); }
 });
-
-
 </script>
-
-
 </body>
-
 </html>
