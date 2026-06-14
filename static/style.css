@@ -113,19 +113,31 @@ button:active{
     margin-top: 15px;
     margin-bottom: 10px;
 }
+.mood-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
 .mood-btn {
     flex: 1;
     width: auto;
     padding: 8px 4px;
     font-family: 'Press Start 2P', cursive;
     font-size: 8px;
-    background: #e8dcff;
+    background: #e8dcff; /* Aktif değilken tatlı mor */
     border: 4px solid #5c3b58;
     box-shadow: 3px 3px 0px #5c3b58;
     cursor: pointer;
     text-align: center;
+    transition: all 0.1s ease;
 }
-.mood-btn:active {
+
+/* BUTONA BASILDIĞINDA VEYA AKTİFKEN SENİN O GÜZEL PEMBE EFEKTİN */
+.mood-btn.active, .mood-btn:active {
+    background: #ff9fca; /* Senin o orijinal pembe rengin! */
     transform: translate(3px, 3px);
     box-shadow: none;
 }
