@@ -100,6 +100,61 @@ async function changeMood(selectedMood, buttonElement) {
 async function sendMessage(){
     let input = document.getElementById("input");
     let text = input.value.trim();
+    
+    // TXT GİZLİ KODU (SARI - MAVİ KONSEPTİ)
+    if (text.toLowerCase() === "txt") {
+        let messages = document.getElementById("messages");
+        
+        // Kullanıcının mesajını ekrana basıyoruz
+        messages.innerHTML += `<div class="user message">${text}</div>`;
+        input.value = "";
+        
+        // 1. Pembe yerler SARI (#ffdb00) oluyor
+        document.body.style.backgroundColor = "#ffdb00"; // Sayfa arka planı
+        document.querySelector("button").style.backgroundColor = "#ffdb00"; // Gönder butonu
+        
+        // 2. Mor yerler MAVİ (#31c8ff) oluyor
+        document.querySelector(".app").style.borderColor = "#31c8ff"; // Ana kutu çerçevesi
+        document.querySelector("h1").style.color = "#31c8ff"; // DearBot başlık rengi
+        
+        // 3. DearBot yazısının altına mavi renkte "One Dream!" ekleme
+
+        
+        let headerDiv = document.querySelector(".header div:last-child");
+        if (!document.getElementById("one-dream-text")) {
+            headerDiv.innerHTML += `
+                <div id="one-dream-text" style="color: #31c8ff; font-size: 16px; margin-top: 8px;">
+                    One Dream!
+                </div>
+            `;
+        }
+        
+        // Sürpriz bot mesajını ekrana basıyoruz
+        setTimeout(() => {
+            messages.innerHTML += `
+                <div class="bot message" style="background: #fff7fc; border-color: #31c8ff;">
+                    🐰 +×+ dünyasına hoş geldin! ✨
+                </div>
+            `;
+            messages.scrollTop = messages.scrollHeight;
+            
+            // 3 saniye sonra her şeyi pofuduk orijinal renklerine geri döndür ve yazıyı sil
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#ffdff2";
+                document.querySelector("button").style.backgroundColor = "#ff9fca";
+                document.querySelector(".app").style.borderColor = "#5c3b58";
+                document.querySelector("h1").style.color = "#8b4f7d";
+                
+                let dreamText = document.getElementById("one-dream-text");
+                if (dreamText) { dreamText.remove(); }
+            }, 3000);
+            
+        }, 400);
+        
+        return; // Groq'a gitmesini engelliyoruz
+    }
+
+    
     if(text === ""){ return; }
     let messages = document.getElementById("messages");
     messages.innerHTML += `<div class="user message">${text}</div>`;
