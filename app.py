@@ -44,8 +44,11 @@ def set_mood():
     # Kullanıcının seçtiği modun açıklamasını sözlükten çekiyoruz
     mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
     
-    # Botun en tepedeki sistem talimatını (0. indeksteki mesajı) güncelliyoruz
-    messages[0]["content"] = f"""
+    # ÇÖZÜM: Hafızayı sıfırlıyoruz ve en tepeye YENİ modu yerleştiriyoruz
+    messages = [
+        {
+            "role": "system",
+            "content": f"""
 Sen DearBot'sun. Türkçe konuşuyorsun. Samimi ve doğal cevaplar veriyorsun.
 BİLGİSİNİN KESİN OLMADIĞI VEYA EMİN OLMADIĞIN KONULARDA ASLA UYDURMA BİLGİ VERME. 
 Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda kesin bir bilgim yok' diyerek belirt.
@@ -53,8 +56,9 @@ Eğer bir konudan emin değilsen veya bilmiyorsan, bunu dürüstçe 'Bu konuda k
 ŞU ANKİ RUH HALİN VE KARAKTERİN: {mood_instruction}
 Bu ruh halini tamamen benimse ve konuşmana birebir yansıt ama kullanıcıya 'Bana şu mod verildi' deme, bunu doğalca hissettir.
 """
+        }
+    ]
     return jsonify({"status": "success", "current_mood": selected_mood})
-
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json["message"]
