@@ -29,13 +29,15 @@
 
     </div>
 
-<!-- MOD SEÇİM BUTONLARI -->
+
     <div class="mood-container">
-        <button class="mood-btn" onclick="changeMood('Enerjik ✨')">Enerjik ✨</button>
-        <button class="mood-btn" onclick="changeMood('Uykulu ☕')">Uykulu ☕</button>
-        <button class="mood-btn" onclick="changeMood('Filozof 📚')">Filozof 📚</button>
-        <button class="mood-btn" onclick="changeMood('Alıngan 💅')">Alıngan 💅</button>
+        <button class="mood-btn" onclick="changeMood(this, 'Enerjik ✨')">Enerjik ✨</button>
+        <button class="mood-btn" onclick="changeMood(this, 'Uykulu ☕')">Uykulu ☕</button>
+        <button class="mood-btn" onclick="changeMood(this, 'Filozof 📚')">Filozof 📚</button>
+        <button class="mood-btn" onclick="changeMood(this, 'Alıngan 💅')">Alıngan 💅</button>
     </div>
+
+
 
     <div id="messages" class="messages">
 
@@ -93,48 +95,7 @@ let text = input.value.trim();
 if(text === ""){
     return;
 }
-async function changeMood(selectedMood) {
-    // Tıklanan butonu bulalım (içindeki yazıya göre)
-    let buttons = document.querySelectorAll(".mood-btn");
-    let clickedButton = Array.from(buttons).find(btn => btn.innerText === selectedMood);
-    
-    let targetMood = selectedMood;
-    let systemText = "";
 
-    // EĞER TIKLANAN BUTON ZATEN AKTİFSE (Kullanıcı modu kapatmak istiyor)
-    if (clickedButton.classList.contains("active-mood")) {
-        clickedButton.classList.remove("active-mood");
-        targetMood = null; // Python'a boş gönderiyoruz ki normal moda dönsün
-        systemText = `⚙️ System: DearBot "Normal" moda geri döndü.`;
-    } else {
-        // Önce diğer tüm butonlardaki aktifliği kaldıralım (aynı anda sadece bir mod açılabilir)
-        buttons.forEach(btn => btn.classList.remove("active-mood"));
-        
-        // Şimdi sadece tıkladığımız butonu aktif yapalım
-        clickedButton.classList.add("active-mood");
-        systemText = `⚙️ System: DearBot artık "${selectedMood}" modunda!`;
-    }
-
-    // Arka plana yeni durumu bildiriyoruz
-    let response = await fetch("/set_mood", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ mood: targetMood })
-    });
-    
-    let data = await response.json();
-    
-    // Ekrana sistem mesajını yazdıralım (eski mesajları silmeden alta ekler)
-    let messages = document.getElementById("messages");
-    messages.innerHTML += `
-        <div class="bot message" style="background: #fff; border-style: dashed; color: #8b4f7d;">
-            ${systemText}
-        </div>
-    `;
-    messages.scrollTop = messages.scrollHeight;
-}
 
 
 let messages = document.getElementById("messages");
@@ -201,6 +162,46 @@ messages.scrollTop = messages.scrollHeight;
 }
 
 
+// MOD DEĞİŞTİRME FONKSİYONU (Açma/Kapama ve Buton Basılı Kalma Mantığı Tamamen Çözüldü)
+async function changeMood(buttonElement, selectedMood) {
+    let targetMood = selectedMood;
+    let systemText = "";
+
+    // Eğer tıklanan buton zaten aktifse (Kullanıcı modu kapatıp normal moda dönmek istiyor)
+    if (buttonElement.classList.contains("active-mood")) {
+        buttonElement.classList.remove("active-mood");
+        targetMood = null; // Python normal moda dönecek
+        systemText = `⚙️ System: DearBot "Normal" moda geri döndü.`;
+    } else {
+        // Önce ekrandaki tüm mod butonlarından aktiflik sınıfını temizle
+        let buttons = document.querySelectorAll(".mood-btn");
+        buttons.forEach(btn => btn.classList.remove("active-mood"));
+        
+        // Sadece tıkladığımız butona aktiflik sınıfını ekle
+        buttonElement.classList.add("active-mood");
+        systemText = `⚙️ System: DearBot artık "${selectedMood}" modunda!`;
+    }
+
+    // Arka plandaki Flask sunucumuza yeni modu post ediyoruz
+    let response = await fetch("/set_mood", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ mood: targetMood })
+    });
+    
+    let data = await response.json();
+    
+    // Konuşma geçmişini bozmadan alt kısma sistem uyarısını ekliyoruz
+    let messages = document.getElementById("messages");
+    messages.innerHTML += `
+        <div class="bot message" style="background: #fff; border-style: dashed; color: #8b4f7d; align-self: center; max-width: 100%; width: 100%; text-align: center;">
+            ${systemText}
+        </div>
+    `;
+    messages.scrollTop = messages.scrollHeight;
+}
 
 
 document.getElementById("input")
