@@ -105,24 +105,20 @@ async function sendMessage(){
     let input = document.getElementById("input");
     let text = input.value.trim();
     
-    // TXT GİZLİ KODU (SARI - MAVİ KONSEPTİ)
+  // TXT GİZLİ KODU (SARI - MAVİ KONSEPTİ)
     if (text.toLowerCase() === "txt") {
         let messages = document.getElementById("messages");
         
-        // Kullanıcının mesajını ekrana basıyoruz
         messages.innerHTML += `<div class="user message">${text}</div>`;
         input.value = "";
         
-        // 1. Pembe yerler SARI (#ffdb00) oluyor
-        document.body.style.backgroundColor = "#ffdb00"; // Sayfa arka planı
-        document.querySelector("button").style.backgroundColor = "#ffdb00"; // Gönder butonu
+        let sendButton = document.querySelector(".input-area button");
         
-        // 2. Mor yerler MAVİ (#31c8ff) oluyor
-        document.querySelector(".app").style.borderColor = "#31c8ff"; // Ana kutu çerçevesi
-        document.querySelector("h1").style.color = "#31c8ff"; // DearBot başlık rengi
+        document.body.style.backgroundColor = "#ffdb00"; 
+        if (sendButton) { sendButton.style.backgroundColor = "#ffdb00"; } 
         
-        // 3. DearBot yazısının altına mavi renkte "One Dream!" ekleme
-
+        document.querySelector(".app").style.borderColor = "#31c8ff"; 
+        document.querySelector("h1").style.color = "#31c8ff"; 
         
         let headerDiv = document.querySelector(".header div:last-child");
         if (!document.getElementById("one-dream-text")) {
@@ -133,7 +129,6 @@ async function sendMessage(){
             `;
         }
         
-        // Sürpriz bot mesajını ekrana basıyoruz
         setTimeout(() => {
             messages.innerHTML += `
                 <div class="bot message" style="background: #fff7fc; border-color: #31c8ff;">
@@ -142,10 +137,9 @@ async function sendMessage(){
             `;
             messages.scrollTop = messages.scrollHeight;
             
-            // 3 saniye sonra her şeyi pofuduk orijinal renklerine geri döndür ve yazıyı sil
             setTimeout(() => {
                 document.body.style.backgroundColor = "#ffdff2";
-                document.querySelector("button").style.backgroundColor = "#ff9fca";
+                if (sendButton) { sendButton.style.backgroundColor = "#ff9fca"; } 
                 document.querySelector(".app").style.borderColor = "#5c3b58";
                 document.querySelector("h1").style.color = "#8b4f7d";
                 
@@ -155,9 +149,8 @@ async function sendMessage(){
             
         }, 400);
         
-        return; // Groq'a gitmesini engelliyoruz
+        return; 
     }
-
     
     if(text === ""){ return; }
     let messages = document.getElementById("messages");
