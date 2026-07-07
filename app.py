@@ -5,7 +5,7 @@ import random
 app = Flask(__name__)
 
 # API anahtarını buradaki tırnakların içine yazabilirsin.
-client = Groq(api_key=os.environ.get("GROQ_API_KEY", "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"))
+client = Groq(api_key=os.environ["GROQ_API_KEY"])
 # DearBot'un bürünebileceği eğlenceli ruh halleri ve talimatları
 MOODS = {
     "Enerjik ✨": "Şu an aşırı enerjik, neşeli ve heyecanlısın! Cümlelerinde bolca coşkulu emoji kullan, yerinde duramıyormuş gibi davran.",
