@@ -1,4 +1,4 @@
-# 🤖 DearBot — Interactive AI Assistant
+# 🐰 DearBot — Interactive AI Assistant
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?style=flat-square&logo=python)
 ![Flask](https://img.shields.io/badge/Framework-Flask-000000?style=flat-square&logo=flask)
