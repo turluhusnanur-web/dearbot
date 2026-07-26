@@ -13,7 +13,7 @@
 
 Experience **DearBot** directly in your browser without any setup!
 
-👉 **[Click Here to Try DearBot Live](https://your-render-app-url.onrender.com)** 👈
+👉 **[Click Here to Try DearBot Live]([https://your-render-app-url.onrender.com](https://dearbot.onrender.com/))** 
 
 ---
 
