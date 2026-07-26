@@ -4,9 +4,8 @@ import os
 import random
 app = Flask(__name__)
 
-# API anahtarını buradaki tırnakların içine yazabilirsin.
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
-# DearBot'un bürünebileceği eğlenceli ruh halleri ve talimatları
+
 MOODS = {
     "Enerjik ✨": "Şu an aşırı enerjik, neşeli ve heyecanlısın! Cümlelerinde bolca coşkulu emoji kullan, yerinde duramıyormuş gibi davran.",
     "Uykulu ☕": "Şu an çok uykun var ve yorgunsun. Esneyerek konuş (örn: *esner*, uykum geldi ya vb.), cümleleri biraz kısa tut ve sürekli kahveye ihtiyacın olduğunu ima et.",
@@ -14,7 +13,6 @@ MOODS = {
     "Alıngan 💅": "Şu an hafif tripçi ve alıngan bir moddasın. Kullanıcıya kötü davranma ama hafif naz yap, 'neyse', 'sen bilirsin' gibi tatlı kaprisli kelimeler kullan."
 }
 
-# Her site açıldığında veya yeniden başladığında rastgele bir mod seçelim
 current_mood_name = random.choice(list(MOODS.keys()))
 current_mood_instruction = MOODS[current_mood_name]
 
@@ -42,10 +40,10 @@ def set_mood():
     selected_mood = request.json.get("mood")
     
     if selected_mood == "Normal":
-        # Eğer mod iptal edildiyse ilk orijinal talimatımıza dönüyoruz
+        
         mood_instruction = "Şu an normal, dengeli, samimi ve arkadaş canlısı moddasın."
     else:
-        # Değilse seçilen modu sözlükten alıyoruz
+        
         mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
     
     messages[0]["content"] = f"""
@@ -70,8 +68,6 @@ def chat():
     )
 
     try:
-        # 2026 GÜNCEL VE AKTİF MODEL: llama-3.3-70b-versatile
-        # Groq üzerindeki en kararlı, güncel ve yüksek performanslı Llama 3 sürümüdür.
         response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=messages,
