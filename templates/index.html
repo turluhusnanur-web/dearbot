@@ -53,19 +53,19 @@
 </div>
 
 <script>
-let currentActiveMood = null; // Şu an hangi modun aktif olduğunu hafızada tutuyoruz
+let currentActiveMood = null; // mod hafıza
 
 async function changeMood(selectedMood, buttonElement) {
     let messages = document.getElementById("messages");
     
-    // Eğer zaten aktif olan moda tekrar basıldıysa, modu iptal et ve normale dön!
+    
     if (currentActiveMood === selectedMood) {
         currentActiveMood = null;
         
-        // Tüm mod butonlarının aktiflik (pembe) stilini temizle
+        
         document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
         
-        // Arka plana "Normal" moda dönmesi için istek gönder
+        
         await fetch("/set_mood", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -81,14 +81,13 @@ async function changeMood(selectedMood, buttonElement) {
         return;
     }
 
-    // Yeni bir moda basıldıysa: Önce eski aktif butonların pembeliğini temizle
+  
     document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
     
-    // Şimdi sadece bu basılan butonu aktif (pembe) yap
+   
     buttonElement.classList.add('active');
     currentActiveMood = selectedMood;
 
-    // Python'a yeni modu bildir
     let response = await fetch("/set_mood", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -107,14 +106,13 @@ async function sendMessage(){
     let input = document.getElementById("input");
     let text = input.value.trim();
     
-    // TXT GİZLİ KODU (SARI - MAVİ KONSEPTİ)
+    // TXT GİZLİ KODU 
     if (text.toLowerCase() === "txt") {
         let messages = document.getElementById("messages");
         
         messages.innerHTML += `<div class="user message">${text}</div>`;
         input.value = "";
         
-        // Sadece mesaj gönderme alanındaki butonu seçiyoruz, mod butonları etkilenmiyor!
         let sendButton = document.querySelector(".input-area button");
         
         document.body.style.backgroundColor = "#ffdb00"; 
@@ -148,7 +146,7 @@ async function sendMessage(){
                 
                 let dreamText = document.getElementById("one-dream-text");
                 if (dreamText) { dreamText.remove(); }
-            }, 5000); // 5 saniye boyunca ekranda kalır
+            }, 5000); // 5 saniye ekranda kalır
             
         }, 400);
         
