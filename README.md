@@ -33,8 +33,3 @@ Experience **DearBot** directly in your browser without any setup!
 * **Deployment & Hosting:** Render, GitHub
 * **Version Control:** Git
 
----
-
-## 📸 Preview
-
-*(Optionally add a screenshot or GIF of DearBot in action here)*
