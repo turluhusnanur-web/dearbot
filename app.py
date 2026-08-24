@@ -66,9 +66,9 @@ def chat():
         }
     )
 
- try:
+    try:
         response = client.chat.completions.create(
-            model="llama-3.3-70b-specdec",  # Veya "llama3-70b-8192"
+            model="llama-3.3-70b-specdec",
             messages=messages,
             temperature=0.6
         )
@@ -86,7 +86,6 @@ def chat():
     return jsonify({
         "reply": bot_message
     })
-
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
