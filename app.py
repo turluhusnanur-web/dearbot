@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from groq import Groq
 import os
 import random
+
 app = Flask(__name__)
 
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
@@ -40,10 +41,8 @@ def set_mood():
     selected_mood = request.json.get("mood")
     
     if selected_mood == "Normal":
-        
         mood_instruction = "Şu an normal, dengeli, samimi ve arkadaş canlısı moddasın."
     else:
-        
         mood_instruction = MOODS.get(selected_mood, MOODS["Enerjik ✨"])
     
     messages[0]["content"] = f"""
@@ -68,8 +67,9 @@ def chat():
     )
 
     try:
+        # Düzeltilen kısım: Model ismi güncel Llama 3.1 70B modeli ile değiştirildi.
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-70b-versatile",
             messages=messages,
             temperature=0.6
         )
