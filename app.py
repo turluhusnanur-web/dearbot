@@ -1,3 +1,4 @@
+MODEL_NAME = "llama-3.1-8b-instant"
 from flask import Flask, render_template, request, jsonify
 from groq import Groq
 import os
@@ -66,13 +67,12 @@ def chat():
         }
     )
 
-   try:
+    try:
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",  # %100 Çalışan Güncel Model
+            model=MODEL_NAME ,
             messages=messages,
             temperature=0.6
         )
-       
         bot_message = response.choices[0].message.content
     except Exception as e:
         bot_message = f"Uf küçük bir bağlantı hatası aldım: {str(e)}"
