@@ -67,11 +67,11 @@ def chat():
     )
 
     try:
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-specdec",
-            messages=messages,
-            temperature=0.6
-        )
+      response = client.chat.completions.create(
+    model="qwen-3.6-27b",  # Mailde önerilen güncel model
+    messages=messages,
+    temperature=0.6
+)
         bot_message = response.choices[0].message.content
     except Exception as e:
         bot_message = f"Uf küçük bir bağlantı hatası aldım: {str(e)}"
