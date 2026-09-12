@@ -68,7 +68,7 @@ def chat():
 
     try:
       response = client.chat.completions.create(
-    model="qwen-3.6-27b",  # Mailde önerilen güncel model
+    model="qwen-3.6-27b",  
     messages=messages,
     temperature=0.6
 )
