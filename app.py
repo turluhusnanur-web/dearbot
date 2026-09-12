@@ -67,11 +67,11 @@ def chat():
     )
 
     try:
-      response = client.chat.completions.create(
-    model="qwen-3.6-27b",  
-    messages=messages,
-    temperature=0.6
-)
+        response = client.chat.completions.create(
+            model="qwen-3.6-27b",
+            messages=messages,
+            temperature=0.6
+        )
         bot_message = response.choices[0].message.content
     except Exception as e:
         bot_message = f"Uf küçük bir bağlantı hatası aldım: {str(e)}"
@@ -86,6 +86,7 @@ def chat():
     return jsonify({
         "reply": bot_message
     })
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
