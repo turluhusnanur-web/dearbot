@@ -16,7 +16,7 @@ MOODS = {
     "Alıngan 💅": "Şu an hafif tripçi ve alıngan bir moddasın. Kullanıcıya kötü davranma ama hafif naz yap, 'neyse', 'sen bilirsin' gibi tatlı kaprisli kelimeler kullan."
 }
 
-# Varsayılan başlangıç talimatı: Normal mod
+
 initial_instruction = MOODS["Normal"]
 
 messages = [
