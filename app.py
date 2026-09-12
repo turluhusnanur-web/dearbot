@@ -1,4 +1,4 @@
-MODEL_NAME = "llama-3.1-8b-instant"
+MODEL_NAME = "openai/gpt-oss-120b"
 from flask import Flask, render_template, request, jsonify
 from groq import Groq
 import os
