@@ -66,12 +66,13 @@ def chat():
         }
     )
 
-    try:
+   try:
         response = client.chat.completions.create(
-            model="qwen-3.6-27b",
+            model="llama-3.1-8b-instant",  # %100 Çalışan Güncel Model
             messages=messages,
             temperature=0.6
         )
+       
         bot_message = response.choices[0].message.content
     except Exception as e:
         bot_message = f"Uf küçük bir bağlantı hatası aldım: {str(e)}"
