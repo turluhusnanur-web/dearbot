@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
-# Modeli senin kullandığın şekilde bırakıyoruz
 MODEL_NAME = "openai/gpt-oss-120b"
 
 MOODS = {
@@ -62,8 +61,6 @@ def set_mood():
 def chat():
     user_message = request.json["message"]
 
-    # Global hafıza yerine isteğe özel payload oluşturuyoruz.
-    # Böylece sohbet uzadıkça API token limitine takılıp DearMath'i kilitlemez.
     payload_messages = [
         {"role": "system", "content": get_system_prompt(current_mood_instruction)},
         {"role": "user", "content": user_message},
